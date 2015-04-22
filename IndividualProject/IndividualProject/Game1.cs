@@ -16,8 +16,10 @@ namespace IndividualProject
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private LevelConstructor levelConstructor;
+        public Level level { get; set; }
 
         public Game1()
             : base()
@@ -49,6 +51,10 @@ namespace IndividualProject
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            levelConstructor = new LevelConstructor(this);
+
+            
         }
 
         /// <summary>
@@ -82,9 +88,12 @@ namespace IndividualProject
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            
+            
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
