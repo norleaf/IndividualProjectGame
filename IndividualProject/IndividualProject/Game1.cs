@@ -1,12 +1,17 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
+
 #endregion
 
 namespace IndividualProject
@@ -16,11 +21,11 @@ namespace IndividualProject
     /// </summary>
     public class Game1 : Game
     {
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private LevelConstructor levelConstructor;
-        public Level level { get; set; }
-
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+        BattleBoard battleBoard;
+        Camera camera;
+        
         public Game1()
             : base()
         {
@@ -51,8 +56,9 @@ namespace IndividualProject
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
-            levelConstructor = new LevelConstructor(this);
+            Screen screen = Screen.AllScreens.First(e => e.Primary);
+            camera = new Camera(new Vector2(0,0),new Vector2(screen.Bounds.Width,screen.Bounds.Height) );
+            battleBoard = new BattleBoard(Content);
 
             
         }
@@ -92,7 +98,7 @@ namespace IndividualProject
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             
-            
+            battleBoard.Draw(spriteBatch, camera);
             spriteBatch.End();
             base.Draw(gameTime);
         }

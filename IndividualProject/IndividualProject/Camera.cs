@@ -8,6 +8,12 @@ namespace IndividualProject
 {
     public class Camera
     {
+        public Camera(Vector2 position, Vector2 screenSize)
+        {
+            Position = position;
+            ScreenSize = screenSize;
+        }
+
         public Vector2 Position { get; set; }
         public Vector2 ScreenSize { get; set; }
         public Rectangle ViewRectangle

@@ -23,3 +23,5 @@ C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\Indivi
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\obj\x86\Debug\IndividualProject.csprojResolveAssemblyReference.cache
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\obj\x86\Debug\IndividualProject.exe
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\obj\x86\Debug\IndividualProject.pdb
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\pixel.gif
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\Square.jpg

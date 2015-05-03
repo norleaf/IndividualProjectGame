@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace IndividualProject
 {
-    public class Piece
+    class Piece : Sprite
     {
-        public Field Field { get; set; }
-        public int Health { get; private set; }
-        public int Actions { get; private set; }
+        public Point gridPosition { get; set; }
+        public Color teamColor { get; set; }
+        private int cellSize;
 
-        public void TakeDamage(int i)
+        public Piece(Texture2D spriteTexture, Point gridPosition, int cellSize) : base(spriteTexture, new Vector2(0,0))
         {
-            Health -= i;
-            if(Health<=0)
-            {
-                Die();
-            }
+            this.gridPosition = gridPosition;
+            this.cellSize = cellSize;
         }
 
-        private void Die()
+        public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void SpendAction(int i)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            Actions -= i;
+            spriteBatch.Draw(SpriteTexture, new Vector2(gridPosition.X*cellSize,gridPosition.Y*cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
         }
-
-        
     }
 }
