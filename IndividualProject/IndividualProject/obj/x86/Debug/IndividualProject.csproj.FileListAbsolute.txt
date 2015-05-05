@@ -25,3 +25,5 @@ C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\Indivi
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\obj\x86\Debug\IndividualProject.pdb
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\pixel.gif
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\Square.jpg
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\fire.png
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\mud.png

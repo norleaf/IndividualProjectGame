@@ -7,15 +7,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace IndividualProject
 {
-    class Piece : Sprite
+    public class Piece : Sprite
     {
-        public Point gridPosition { get; set; }
+        public Point Field { get; set; }
         public Color teamColor { get; set; }
         private int cellSize;
+        public int Attack { get; set; }
+        public int Armor { get; set; }
+        public int ActionPoints { get; set; }
+        public int Health { get; set; }
 
-        public Piece(Texture2D spriteTexture, Point gridPosition, int cellSize) : base(spriteTexture, new Vector2(0,0))
+        public Piece(Texture2D spriteTexture, Point field, int cellSize) : base(spriteTexture, new Vector2(0,0))
         {
-            this.gridPosition = gridPosition;
+            this.Field = field;
             this.cellSize = cellSize;
         }
 
@@ -26,7 +30,25 @@ namespace IndividualProject
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            spriteBatch.Draw(SpriteTexture, new Vector2(gridPosition.X*cellSize,gridPosition.Y*cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(SpriteTexture, new Vector2(Field.X*cellSize,Field.Y*cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
         }
+
+        public virtual bool MoveToField(int x, int y, BattleBoard board)
+        {
+            if (IsFieldAdjacent(x, y))
+            {
+                
+            }
+            return false;
+        }
+
+        public virtual bool IsFieldAdjacent(int x, int y)
+        {
+            if (x >= Field.X - 1 && x <= Field.X + 1 && y >= Field.Y - 1 && y <= Field.Y + 1)
+                return true;
+            return false;
+        }
+
+        
     }
 }
