@@ -11,10 +11,13 @@ namespace IndividualProject
     public class Field
     {
         public Field PathParent { get; set; }
-        public int PathCost { get; set; }
+        public float PathCost { get; set; }
         public Point GridPoint { get; set; }
         public Piece Piece { get; set; }
         public int Terrain { get; set; }
+        public const int CLEAR = 0;
+        public const int MUD = 1;
+        public const int FIRE = 2;
 
         public int X
         {
@@ -26,22 +29,49 @@ namespace IndividualProject
             get { return GridPoint.Y; }
         }
 
-        public int StepCost
+        public float StepCost(Field steppingFromField)
         {
-            get
+            if (steppingFromField.X == X || steppingFromField.Y == Y)
             {
                 switch (Terrain)
                 {
-                    case 0:
+                    case CLEAR:
                         return 1;
-                    case 1:
+                    case MUD:
                         return 3;
-                    case 2:
-                        return 1;
+                    case FIRE:
+                        return 4;
                     default:
                         return 1;
                 }
             }
+            else
+            {
+                switch (Terrain)
+                {
+                    case CLEAR:
+                        return 1.44f;
+                    case MUD:
+                        return 4.24f;
+                    case FIRE:
+                        return 5.65f;
+                    default:
+                        return 1;
+                }
+            }
+            
+            //switch (Terrain)
+            //    {
+            //        case 0:
+            //            return 1;
+            //        case 1:
+            //            return 3;
+            //        case 2:
+            //            return 1;
+            //        default:
+            //            return 1;
+            //    }
+            
         }
 
         public Field(Point gridPoint)
@@ -54,11 +84,11 @@ namespace IndividualProject
 
         public int Heuristic(int x, int y)
         {
-            return (int) (2.6 * Math.Sqrt(Math.Pow(Math.Abs(x - GridPoint.X), 2) + Math.Pow(Math.Abs(y - GridPoint.Y), 2)));
-          //  return (x > y) ? x : y;
+            return (int) (1.35 * Math.Sqrt(Math.Pow(Math.Abs(x - GridPoint.X), 2) + Math.Pow(Math.Abs(y - GridPoint.Y), 2)));
+           // return (x > y) ? x : y;
         }
 
-        public int F(Field origin)
+        public float F(Field origin)
         {
             return Heuristic(origin.GridPoint.X, origin.GridPoint.Y) + PathCost;
         }

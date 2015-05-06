@@ -22,7 +22,7 @@ namespace IndividualProject
             while (!done)
             {
                 //consider the best node in the open list (the node with the lowest f value)
-                int lowestF = openNodes[0].F(target);
+                float lowestF = openNodes[0].F(target);
                 currentNode = openNodes[0];
                 foreach (var node in openNodes)
                 {
@@ -49,15 +49,15 @@ namespace IndividualProject
                     {
                         if (closedNodes.Contains(node) || openNodes.Contains(node))
                         {
-                            if (node.PathCost > currentNode.PathCost + node.StepCost)
+                            if (node.PathCost > currentNode.PathCost + node.StepCost(currentNode))
                             {
-                                node.PathCost = currentNode.PathCost + node.StepCost;
+                                node.PathCost = currentNode.PathCost + node.StepCost(currentNode);
                                 node.PathParent = currentNode;
                             }
                         }
                         else
                         {
-                            node.PathCost = currentNode.PathCost + node.StepCost;
+                            node.PathCost = currentNode.PathCost + node.StepCost(currentNode);
                             openNodes.Add(node);
                         }
                     }
