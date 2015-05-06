@@ -9,7 +9,7 @@ namespace IndividualProject
 {
     public class Piece : Sprite
     {
-        public Point Field { get; set; }
+        public Field Field { get; set; }
         public Color teamColor { get; set; }
         private int cellSize;
         public int Attack { get; set; }
@@ -17,7 +17,7 @@ namespace IndividualProject
         public int ActionPoints { get; set; }
         public int Health { get; set; }
 
-        public Piece(Texture2D spriteTexture, Point field, int cellSize) : base(spriteTexture, new Vector2(0,0))
+        public Piece(Texture2D spriteTexture, Field field, int cellSize) : base(spriteTexture, new Vector2(0,0))
         {
             this.Field = field;
             this.cellSize = cellSize;
@@ -30,7 +30,12 @@ namespace IndividualProject
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            spriteBatch.Draw(SpriteTexture, new Vector2(Field.X*cellSize,Field.Y*cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(SpriteTexture, new Vector2(Field.X*cellSize,Field.Y*cellSize - cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
+        }
+
+        public void InsertOnBoard(BattleBoard board)
+        {
+            board.Fields[Field.X, Field.Y].Piece = this;
         }
 
         public virtual bool MoveToField(int x, int y, BattleBoard board)
@@ -44,7 +49,7 @@ namespace IndividualProject
 
         public virtual bool IsFieldAdjacent(int x, int y)
         {
-            if (x >= Field.X - 1 && x <= Field.X + 1 && y >= Field.Y - 1 && y <= Field.Y + 1)
+            if (x >= Field.GridPoint.X - 1 && x <= Field.GridPoint.X + 1 && y >= Field.GridPoint.Y - 1 && y <= Field.GridPoint.Y + 1)
                 return true;
             return false;
         }

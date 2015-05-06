@@ -42,7 +42,12 @@ namespace IndividualProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            IsMouseVisible = true;
+            Screen screen = Screen.PrimaryScreen;
+            Window.Position = new Point(20,20);
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 

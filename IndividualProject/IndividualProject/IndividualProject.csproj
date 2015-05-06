@@ -39,7 +39,6 @@
     <Compile Include="BattleBoard.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="Node.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Program.cs" />
@@ -56,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fighter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\fire.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -27,3 +27,4 @@ C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\Indivi
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\Square.jpg
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\fire.png
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\mud.png
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\fighter.png
