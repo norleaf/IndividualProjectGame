@@ -10,13 +10,22 @@ namespace IndividualProject
     {
         public List<Field> openNodes { get; private set; }
         public List<Field> closedNodes { get; private set; }
+        public List<Field> path { get; private set; }
 
-        public virtual Field FindPathToTarget(Field origin, Field target, BattleBoard board)
+        public AI()
         {
-            Field currentNode;
-            
             openNodes = new List<Field>();
             closedNodes = new List<Field>();
+            path = new List<Field>();
+        }
+
+        public virtual List<Field> FindPathToTarget(Field origin, Field target, BattleBoard board)
+        {
+            Field currentNode;
+            openNodes.Clear();
+            closedNodes.Clear();
+            path.Clear();
+            board.ClearParents();
             bool done = false;
             openNodes.Add(origin);
             while (!done)
@@ -32,12 +41,20 @@ namespace IndividualProject
                         lowestF = node.F(target);
                     }
                 }
-                Console.WriteLine(currentNode.X+","+currentNode.Y+" cost: "+currentNode.PathCost);
+             //   Console.WriteLine(currentNode.X+","+currentNode.Y+" cost: "+currentNode.PathCost);
                 if (currentNode.Equals(target))
                 {
                     done = true;
                     Console.WriteLine("Success");
-                    return currentNode;
+                    while (currentNode.PathParent != null)
+                    {
+                   //     Console.WriteLine("adding node: " + currentNode.X + "," + currentNode.Y);
+                   //     Console.WriteLine("node parent: " + currentNode.PathParent.X + "," + currentNode.PathParent.Y);
+                        path.Add(currentNode);
+                        currentNode = currentNode.PathParent;
+                    } 
+                  //  Console.WriteLine("path: "+path);
+                    return path;
                 }
                 else
                 {
@@ -58,6 +75,7 @@ namespace IndividualProject
                         else
                         {
                             node.PathCost = currentNode.PathCost + node.StepCost(currentNode);
+                            node.PathParent = currentNode;
                             openNodes.Add(node);
                         }
                     }
@@ -69,5 +87,7 @@ namespace IndividualProject
             }
             return null;
         }
+
+        
     }
 }

@@ -88,7 +88,7 @@ namespace IndividualProject
                 Exit();
 
             // TODO: Add your update logic here
-
+            battleBoard.Update(gameTime);
             base.Update(gameTime);
         }
 

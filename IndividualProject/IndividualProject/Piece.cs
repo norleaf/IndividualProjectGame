@@ -10,6 +10,7 @@ namespace IndividualProject
     public class Piece : Sprite
     {
         public Field Field { get; set; }
+        public Vector2 MoveVector { get; set; }
         public Color teamColor { get; set; }
         private int cellSize;
         public int Attack { get; set; }
@@ -21,6 +22,7 @@ namespace IndividualProject
         {
             this.Field = field;
             this.cellSize = cellSize;
+            MoveVector = Vector2.Zero;
         }
 
         public override void Update(GameTime gameTime)
@@ -30,9 +32,16 @@ namespace IndividualProject
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            spriteBatch.Draw(SpriteTexture, new Vector2(Field.X*cellSize,Field.Y*cellSize - cellSize) + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(SpriteTexture, new Vector2(Field.X*cellSize,Field.Y*cellSize - cellSize)+ MoveVector + camera.Position, SourceRectangle, teamColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
         }
 
+
+
+        public void RemoveFromBoard(BattleBoard board)
+        {
+            board.Fields[Field.X, Field.Y].Piece = null;
+        }
+        
         public void InsertOnBoard(BattleBoard board)
         {
             board.Fields[Field.X, Field.Y].Piece = this;

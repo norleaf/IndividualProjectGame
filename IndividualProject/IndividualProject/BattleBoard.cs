@@ -20,12 +20,17 @@ namespace IndividualProject
         public Field[,] Fields { get; private set; }
         private int boardSize = 20;
         private int cellSize = 32;
-        Field foundpath;
+        List<Field> foundpath;
         AI ai;
-
+        private Piece activePiece;
+        private Piece targetPiece;
+        PieceMover pieceMover;
+        private List<Piece> pieces; 
 
         public BattleBoard(ContentManager content)
         {
+            pieces = new List<Piece>();
+            ai = new AI();
             this.content = content;
             pixel = content.Load<Texture2D>("pixel");
             square = content.Load<Texture2D>("Square");
@@ -38,22 +43,46 @@ namespace IndividualProject
                 {
                     Fields[i, j] = new Field(new Point(i,j));
                 }
+            GenerateTerrain();
 
-            Piece testPiece = new Piece(fighter,Fields[3,2],cellSize);
+            pieceMover = new PieceMover(this);
+
+            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize);
             testPiece.teamColor = Color.Red;
+            testPiece.ActionPoints = 3;
             testPiece.InsertOnBoard(this);
+
+            activePiece = testPiece;
+            
 
             Piece bluePiece = new Piece(fighter,Fields[8,7],cellSize);
             bluePiece.teamColor = Color.DarkBlue;
             bluePiece.InsertOnBoard(this);
+
+            targetPiece = new Piece(fighter,Fields[14,16],cellSize);
+            targetPiece.teamColor = Color.Yellow;
+            targetPiece.InsertOnBoard(this);
+
+            pieces.Add(bluePiece);
+            pieces.Add(targetPiece);
+            pieces.Add(testPiece);
+       
+
+         //   Field target = Fields[14, 16];
             
+          //  foundpath = ai.FindPathToTarget(Fields[3, 2], target, this);
+            ActionComplete();
+        }
+
+        private void GenerateTerrain()
+        {
             Fields[4, 3].Terrain = 1;
             Fields[2, 5].Terrain = 2;
 
 
             //Walls         
             Fields[3, 1].Terrain = -1;
-            
+
             Fields[5, 1].Terrain = -1;
             Fields[5, 2].Terrain = -1;
             Fields[5, 3].Terrain = -1;
@@ -68,11 +97,11 @@ namespace IndividualProject
             Fields[10, 12].Terrain = -1;
             Fields[11, 12].Terrain = -1;
             Fields[12, 12].Terrain = -1;
+        }
 
-
-            Field target = Fields[14, 16];
-            ai = new AI();
-            foundpath = ai.FindPathToTarget(target, Fields[3, 2], this);
+        public void Update(GameTime gameTime)
+        {
+            pieceMover.Update(gameTime, activePiece);
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
@@ -85,6 +114,12 @@ namespace IndividualProject
             {
                 spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.LightGreen);
             }
+            for (int i = 0; i < boardSize; i++)
+            {
+                spriteBatch.Draw(pixel, new Vector2(0, i * cellSize), pixel.Bounds, Color.Black, 0f, new Vector2(0, 0), new Vector2(boardSize * cellSize, 1), SpriteEffects.None, 0f);
+                spriteBatch.Draw(pixel, new Vector2(i * cellSize, 0), pixel.Bounds, Color.Black, 0f, new Vector2(0, 0), new Vector2(1, boardSize * cellSize), SpriteEffects.None, 0f);
+            }
+            
             for (int i = 0; i < boardSize; i++)
             { 
                 for (int j = 0; j < boardSize; j++)
@@ -101,27 +136,42 @@ namespace IndividualProject
                             spriteBatch.Draw(fire, new Vector2(i*cellSize,j*cellSize));
                             break;
                     }
-                    if (Fields[i,j].Piece!=null)
-                    {
-                        Fields[i,j].Piece.Draw(spriteBatch,camera);
-                        //foreach (var neighbor in Fields[i,j].Neighbors(this))
-                        //{
-                        //    spriteBatch.Draw(square,new Vector2(neighbor.X*cellSize,neighbor.Y*cellSize),Color.Yellow);
-                        //}
-
-                        
-                    }
+                    //if (Fields[i,j].Piece!=null)
+                    //{
+                    //    Fields[i,j].Piece.Draw(spriteBatch,camera);
+                    //}
                 }
             }
-            
-            for (int i = 0; i < boardSize; i++)
+            foreach (var piece in pieces)
             {
-                spriteBatch.Draw(pixel, new Vector2(0, i * cellSize), pixel.Bounds, Color.Black, 0f, new Vector2(0, 0), new Vector2(boardSize * cellSize, 1), SpriteEffects.None, 0f);
-                spriteBatch.Draw(pixel, new Vector2(i * cellSize, 0), pixel.Bounds, Color.Black, 0f, new Vector2(0, 0), new Vector2(1, boardSize * cellSize), SpriteEffects.None, 0f);
+                piece.Draw(spriteBatch,camera);
             }
+            
+            
+        }
+
+        public void ClearParents()
+        {
+            for (int i = 0; i < boardSize; i++)
+                for (int j = 0; j < boardSize; j++)
+                {
+                    Fields[i, j].PathParent = null;
+                }
         }
 
 
-        
+        public void ActionComplete()
+        {
+            if (activePiece.ActionPoints > 0)
+            {
+               // pieceMover.piece = activePiece;
+                List<Field> path = ai.FindPathToTarget(activePiece.Field, targetPiece.Field, this);
+                if (path.Count>0)
+                {
+                    pieceMover.Destination = path.Last();
+                    pieceMover.StartMove();
+                }
+            }
+        }
     }
 }
