@@ -16,12 +16,15 @@ namespace IndividualProject
         public int Attack { get; set; }
         public int Armor { get; set; }
         public int ActionPoints { get; set; }
+        public int MaxActionPoints { get; private set; }
         public int Health { get; set; }
+        public Piece Target { get; set; }
 
-        public Piece(Texture2D spriteTexture, Field field, int cellSize) : base(spriteTexture, new Vector2(0,0))
+        public Piece(Texture2D spriteTexture, Field field, int cellSize, int maxAP) : base(spriteTexture, new Vector2(0,0))
         {
             this.Field = field;
             this.cellSize = cellSize;
+            MaxActionPoints = maxAP;
             MoveVector = Vector2.Zero;
         }
 

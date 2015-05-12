@@ -25,11 +25,11 @@ namespace IndividualProject
         private Piece activePiece;
         private Piece targetPiece;
         PieceMover pieceMover;
-        private List<Piece> pieces; 
+        private Queue<Piece> pieces; 
 
         public BattleBoard(ContentManager content)
         {
-            pieces = new List<Piece>();
+            pieces = new Queue<Piece>();
             ai = new AI();
             this.content = content;
             pixel = content.Load<Texture2D>("pixel");
@@ -47,7 +47,7 @@ namespace IndividualProject
 
             pieceMover = new PieceMover(this);
 
-            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize);
+            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize, 3);
             testPiece.teamColor = Color.Red;
             testPiece.ActionPoints = 3;
             testPiece.InsertOnBoard(this);
@@ -55,18 +55,21 @@ namespace IndividualProject
             activePiece = testPiece;
             
 
-            Piece bluePiece = new Piece(fighter,Fields[8,7],cellSize);
+            Piece bluePiece = new Piece(fighter,Fields[1,16],cellSize, 3);
             bluePiece.teamColor = Color.DarkBlue;
             bluePiece.InsertOnBoard(this);
 
-            targetPiece = new Piece(fighter,Fields[14,16],cellSize);
+            targetPiece = new Piece(fighter,Fields[17,16],cellSize, 3);
             targetPiece.teamColor = Color.Yellow;
             targetPiece.InsertOnBoard(this);
 
-            pieces.Add(bluePiece);
-            pieces.Add(targetPiece);
-            pieces.Add(testPiece);
-       
+            pieces.Enqueue(bluePiece);
+            pieces.Enqueue(targetPiece);
+            pieces.Enqueue(testPiece);
+
+            testPiece.Target = targetPiece;
+            targetPiece.Target = bluePiece;
+            bluePiece.Target = bluePiece;
 
          //   Field target = Fields[14, 16];
             
@@ -89,6 +92,8 @@ namespace IndividualProject
             Fields[5, 5].Terrain = -1;
             Fields[5, 6].Terrain = -1;
             Fields[5, 7].Terrain = -1;
+
+            Fields[9, 8].Terrain = -1;
 
             Fields[6, 12].Terrain = -1;
             Fields[7, 12].Terrain = -1;
@@ -162,15 +167,25 @@ namespace IndividualProject
 
         public void ActionComplete()
         {
-            if (activePiece.ActionPoints > 0)
+            if (activePiece.ActionPoints < 1)
             {
-               // pieceMover.piece = activePiece;
-                List<Field> path = ai.FindPathToTarget(activePiece.Field, targetPiece.Field, this);
-                if (path.Count>0)
-                {
-                    pieceMover.Destination = path.Last();
-                    pieceMover.StartMove();
-                }
+                activePiece = pieces.Dequeue();
+                pieces.Enqueue(activePiece);
+                activePiece.ActionPoints = activePiece.MaxActionPoints;
+                
+            }
+            //Here add some checks to see if we can attack else move
+            List<Field> path = ai.FindPathToTarget(activePiece.Field, activePiece.Target.Field, this);
+            if (path.Count > 0)
+            {
+                //the last element of the list is the first step in our path
+                pieceMover.Destination = path.Last();
+                pieceMover.StartMove();
+            }
+            else
+            {
+                //Stay where you are instead of moving to field of last piece that moved
+                pieceMover.Destination = activePiece.Field;
             }
         }
     }

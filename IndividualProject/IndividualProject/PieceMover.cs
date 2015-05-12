@@ -35,7 +35,7 @@ namespace IndividualProject
                 piece.Field = Destination;
                 piece.InsertOnBoard(battleBoard);
                 piece.MoveVector = Vector2.Zero;
-                //Piece.ActionPoints--;
+                piece.ActionPoints--;
                 //call piece finished moving
                 battleBoard.ActionComplete();
             }
