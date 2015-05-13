@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace IndividualProject
 {
@@ -14,23 +15,24 @@ namespace IndividualProject
         private ContentManager content;
         private Texture2D pixel;
         private Texture2D square;
-        private Texture2D fighter;
+        public Texture2D fighter;
         private Texture2D mud;
         private Texture2D fire;
         public Field[,] Fields { get; private set; }
         private int boardSize = 20;
-        private int cellSize = 32;
+        public readonly int cellSize = 32;
         List<Field> foundpath;
-        AI ai;
+       // AI ai;
         private Piece activePiece;
-        private Piece targetPiece;
-        PieceMover pieceMover;
-        private Queue<Piece> pieces; 
+        private bool _paused;
+        private bool _justPressed;
+        //private Piece targetPiece;
+        public Queue<Piece> Pieces { get; private set; } 
 
         public BattleBoard(ContentManager content)
         {
-            pieces = new Queue<Piece>();
-            ai = new AI();
+            Pieces = new Queue<Piece>();
+          //  ai = new AI();
             this.content = content;
             pixel = content.Load<Texture2D>("pixel");
             square = content.Load<Texture2D>("Square");
@@ -45,69 +47,36 @@ namespace IndividualProject
                 }
             GenerateTerrain();
 
-            pieceMover = new PieceMover(this);
+            activePiece = Pieces.Peek();
 
-            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize, 3,this);
-            testPiece.teamColor = Color.Red;
-            testPiece.ActionPoints = 3;
-            testPiece.InsertOnBoard(this);
-
-            activePiece = testPiece;
-
-
-            Piece bluePiece = new Piece(fighter, Fields[1, 16], cellSize, 3, this);
-            bluePiece.teamColor = Color.DarkBlue;
-            bluePiece.InsertOnBoard(this);
-
-            targetPiece = new Piece(fighter, Fields[17, 16], cellSize, 3, this);
-            targetPiece.teamColor = Color.Yellow;
-            targetPiece.InsertOnBoard(this);
-
-            pieces.Enqueue(bluePiece);
-            pieces.Enqueue(targetPiece);
-            pieces.Enqueue(testPiece);
-
-            testPiece.Target = targetPiece;
-            targetPiece.Target = bluePiece;
-            bluePiece.Target = bluePiece;
-
-         //   Field target = Fields[14, 16];
-            
-          //  foundpath = ai.FindPathToTarget(Fields[3, 2], target, this);
             ActionComplete();
         }
 
         private void GenerateTerrain()
         {
-            Fields[4, 3].Terrain = 1;
-            Fields[2, 5].Terrain = 2;
-
-
-            //Walls         
-            Fields[3, 1].Terrain = -1;
-
-            Fields[5, 1].Terrain = -1;
-            Fields[5, 2].Terrain = -1;
-            Fields[5, 3].Terrain = -1;
-            Fields[5, 5].Terrain = -1;
-            Fields[5, 6].Terrain = -1;
-            Fields[5, 7].Terrain = -1;
-
-            Fields[9, 8].Terrain = -1;
-
-            Fields[6, 12].Terrain = -1;
-            Fields[7, 12].Terrain = -1;
-            Fields[8, 12].Terrain = -1;
-            Fields[9, 12].Terrain = -1;
-            Fields[10, 12].Terrain = -1;
-            Fields[11, 12].Terrain = -1;
-            Fields[12, 12].Terrain = -1;
+            MapFactory mf = new MapFactory();
+            mf.Map1(this);
         }
 
         public void Update(GameTime gameTime)
         {
-          //  pieceMover.Update(gameTime, activePiece);
-            activePiece.Update(gameTime);
+            
+            CheckKeyBoard();
+            
+            if(!_paused) 
+                activePiece.Update(gameTime);
+        }
+
+        private void CheckKeyBoard()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                if (_justPressed && !_paused) _paused = true;
+                else if (_paused && _justPressed) _paused = false;
+                _justPressed = false;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.Space))
+                _justPressed = true;
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
@@ -148,7 +117,7 @@ namespace IndividualProject
                     //}
                 }
             }
-            foreach (var piece in pieces)
+            foreach (var piece in Pieces)
             {
                 piece.Draw(spriteBatch,camera);
             }
@@ -170,8 +139,8 @@ namespace IndividualProject
         {
             if (activePiece.ActionPoints < 1)
             {
-                activePiece = pieces.Dequeue();
-                pieces.Enqueue(activePiece);
+                activePiece = Pieces.Dequeue();
+                Pieces.Enqueue(activePiece);
                 activePiece.ActionPoints = activePiece.MaxActionPoints;
                 
             }

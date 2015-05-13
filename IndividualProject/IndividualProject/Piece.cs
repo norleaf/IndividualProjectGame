@@ -32,7 +32,7 @@ namespace IndividualProject
             this.cellSize = cellSize;
             MaxActionPoints = maxAP;
             MoveVector = Vector2.Zero;
-            AI = new AI();
+            AI = new AI(this);
         }
 
         public override void Update(GameTime gameTime)

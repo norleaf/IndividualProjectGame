@@ -11,12 +11,31 @@ namespace IndividualProject
         public List<Field> openNodes { get; private set; }
         public List<Field> closedNodes { get; private set; }
         public List<Field> path { get; private set; }
+        private Piece owner;
 
-        public AI()
+        public AI(Piece owner)
         {
+            this.owner = owner;
             openNodes = new List<Field>();
             closedNodes = new List<Field>();
             path = new List<Field>();
+        }
+
+        public virtual Piece ChooseTarget(BattleBoard battleBoard)
+        {
+            Piece bestTarget = null;
+            foreach (var piece in battleBoard.Pieces)
+            {
+                if (piece.teamColor != owner.teamColor)
+                {
+                    if (bestTarget == null)
+                    {
+                        bestTarget = piece;
+                        path = FindPathToTarget(owner.Field, piece.Field, battleBoard);
+                    }
+                }
+            }
+            return bestTarget;
         }
 
         public virtual List<Field> FindPathToTarget(Field origin, Field target, BattleBoard board)

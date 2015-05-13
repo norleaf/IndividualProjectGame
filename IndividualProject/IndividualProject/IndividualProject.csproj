@@ -40,6 +40,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="MapFactory.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="PieceMover.cs" />
     <Compile Include="Program.cs" />
