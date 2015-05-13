@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace IndividualProject
 {
-    class AI
+    public class AI
     {
         public List<Field> openNodes { get; private set; }
         public List<Field> closedNodes { get; private set; }

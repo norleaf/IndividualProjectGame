@@ -47,24 +47,24 @@ namespace IndividualProject
 
             pieceMover = new PieceMover(this);
 
-            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize, 3);
+            Piece testPiece = new Piece(fighter,Fields[2,1],cellSize, 3,this);
             testPiece.teamColor = Color.Red;
             testPiece.ActionPoints = 3;
             testPiece.InsertOnBoard(this);
 
             activePiece = testPiece;
-            
 
-            Piece bluePiece = new Piece(fighter,Fields[1,16],cellSize, 3);
+
+            Piece bluePiece = new Piece(fighter, Fields[1, 16], cellSize, 3, this);
             bluePiece.teamColor = Color.DarkBlue;
             bluePiece.InsertOnBoard(this);
 
-            targetPiece = new Piece(fighter,Fields[17,16],cellSize, 3);
+            targetPiece = new Piece(fighter, Fields[17, 16], cellSize, 3, this);
             targetPiece.teamColor = Color.Yellow;
             targetPiece.InsertOnBoard(this);
 
             pieces.Enqueue(bluePiece);
-            pieces.Enqueue(targetPiece);
+         //   pieces.Enqueue(targetPiece);
             pieces.Enqueue(testPiece);
 
             testPiece.Target = targetPiece;
@@ -106,16 +106,18 @@ namespace IndividualProject
 
         public void Update(GameTime gameTime)
         {
-            pieceMover.Update(gameTime, activePiece);
+          //  pieceMover.Update(gameTime, activePiece);
+            activePiece.Update(gameTime);
+            targetPiece.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            foreach (var openNode in ai.openNodes)
+            foreach (var openNode in activePiece.AI.openNodes)
             {
                 spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.Green);
             }
-            foreach (var openNode in ai.closedNodes)
+            foreach (var openNode in activePiece.AI.closedNodes)
             {
                 spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.LightGreen);
             }
@@ -151,6 +153,7 @@ namespace IndividualProject
             {
                 piece.Draw(spriteBatch,camera);
             }
+            targetPiece.Draw(spriteBatch,camera);
             
             
         }
@@ -174,19 +177,21 @@ namespace IndividualProject
                 activePiece.ActionPoints = activePiece.MaxActionPoints;
                 
             }
+            activePiece.StartMove();
+            targetPiece.StartMove();
             //Here add some checks to see if we can attack else move
-            List<Field> path = ai.FindPathToTarget(activePiece.Field, activePiece.Target.Field, this);
-            if (path.Count > 0)
-            {
-                //the last element of the list is the first step in our path
-                pieceMover.Destination = path.Last();
-                pieceMover.StartMove();
-            }
-            else
-            {
-                //Stay where you are instead of moving to field of last piece that moved
-                pieceMover.Destination = activePiece.Field;
-            }
+            //List<Field> path = ai.FindPathToTarget(activePiece.Field, activePiece.Target.Field, this);
+            //if (path.Count > 0)
+            //{
+            //    //the last element of the list is the first step in our path
+            //    pieceMover.Destination = path.Last();
+            //    pieceMover.StartMove();
+            //}
+            //else
+            //{
+            //    //Stay where you are instead of moving to field of last piece that moved
+            //    pieceMover.Destination = activePiece.Field;
+            //}
         }
     }
 }
