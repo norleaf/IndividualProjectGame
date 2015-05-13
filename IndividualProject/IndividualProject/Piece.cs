@@ -22,7 +22,7 @@ namespace IndividualProject
         public Piece Target { get; set; }
         private BattleBoard battleBoard;
         private int steps;
-        private const int STEPS = 45;
+        private const int STEPS = 20;
         public AI AI { get; set; }
 
         public Piece(Texture2D spriteTexture, Field field, int cellSize, int maxAP, BattleBoard board) : base(spriteTexture, new Vector2(0,0))

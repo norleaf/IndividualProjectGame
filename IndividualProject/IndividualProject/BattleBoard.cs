@@ -64,7 +64,7 @@ namespace IndividualProject
             targetPiece.InsertOnBoard(this);
 
             pieces.Enqueue(bluePiece);
-         //   pieces.Enqueue(targetPiece);
+            pieces.Enqueue(targetPiece);
             pieces.Enqueue(testPiece);
 
             testPiece.Target = targetPiece;
@@ -108,7 +108,6 @@ namespace IndividualProject
         {
           //  pieceMover.Update(gameTime, activePiece);
             activePiece.Update(gameTime);
-            targetPiece.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
@@ -153,7 +152,6 @@ namespace IndividualProject
             {
                 piece.Draw(spriteBatch,camera);
             }
-            targetPiece.Draw(spriteBatch,camera);
             
             
         }
@@ -178,7 +176,6 @@ namespace IndividualProject
                 
             }
             activePiece.StartMove();
-            targetPiece.StartMove();
             //Here add some checks to see if we can attack else move
             //List<Field> path = ai.FindPathToTarget(activePiece.Field, activePiece.Target.Field, this);
             //if (path.Count > 0)
