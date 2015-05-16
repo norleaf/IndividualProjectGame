@@ -21,10 +21,10 @@ namespace IndividualProject
 
             SpriteTexture = spriteTexture;
             Position = position;
-            Origin = new Vector2(Position.X,Position.Y);
+         //   Origin = new Vector2(Position.X,Position.Y);
             Scale = new Vector2(1, 1);
             Velocity = new Vector2();
-            SourceRectangle = new Rectangle((int)Position.X,(int)Position.Y,SpriteTexture.Width,SpriteTexture.Height);
+            SourceRectangle = new Rectangle(0,0,SpriteTexture.Width,SpriteTexture.Height);
         }
 
         public virtual Vector2 Center

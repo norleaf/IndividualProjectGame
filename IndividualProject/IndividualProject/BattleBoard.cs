@@ -17,12 +17,14 @@ namespace IndividualProject
         private Texture2D square;
         public Texture2D fighter;
         private Texture2D mud;
+        private Texture2D bloodsplat;
         private Texture2D fire;
         public Field[,] Fields { get; private set; }
         private int boardSize = 20;
         public readonly int cellSize = 32;
-        List<Field> foundpath;
+       //List<Field> foundpath;
        // AI ai;
+        private List<Sprite> sprites; 
         private Piece activePiece;
         private bool _paused;
         private bool _justPressed;
@@ -39,6 +41,8 @@ namespace IndividualProject
             fighter = content.Load<Texture2D>("fighter");
             fire = content.Load<Texture2D>("fire");
             mud = content.Load<Texture2D>("mud");
+            bloodsplat = content.Load<Texture2D>("bloodsplat");
+            sprites = new List<Sprite>();
             Fields = new Field[boardSize, boardSize];
             for (int i = 0; i < boardSize; i++)
                 for (int j = 0; j < boardSize; j++)
@@ -111,11 +115,11 @@ namespace IndividualProject
                             spriteBatch.Draw(fire, new Vector2(i*cellSize,j*cellSize));
                             break;
                     }
-                    //if (Fields[i,j].Piece!=null)
-                    //{
-                    //    Fields[i,j].Piece.Draw(spriteBatch,camera);
-                    //}
                 }
+            }
+            foreach (var sprite in sprites)
+            {
+                sprite.Draw(spriteBatch, camera);
             }
             foreach (var piece in Pieces)
             {
@@ -145,19 +149,12 @@ namespace IndividualProject
                 
             }
             activePiece.StartMove();
-            //Here add some checks to see if we can attack else move
-            //List<Field> path = ai.FindPathToTarget(activePiece.Field, activePiece.Target.Field, this);
-            //if (path.Count > 0)
-            //{
-            //    //the last element of the list is the first step in our path
-            //    pieceMover.Destination = path.Last();
-            //    pieceMover.StartMove();
-            //}
-            //else
-            //{
-            //    //Stay where you are instead of moving to field of last piece that moved
-            //    pieceMover.Destination = activePiece.Field;
-            //}
+       }
+
+        public void SpawnBlood(Field field)
+        {
+            Sprite blood = new Sprite(bloodsplat, new Vector2(field.X*cellSize,field.Y*cellSize));
+            sprites.Add(blood);
         }
     }
 }

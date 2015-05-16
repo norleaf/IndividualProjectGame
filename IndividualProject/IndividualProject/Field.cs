@@ -100,7 +100,7 @@ namespace IndividualProject
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    if (X+i > 0 && X+i < 20 && Y+j > 0 && Y+j < 20 && (i!=0 || j!=0))
+                    if (X+i >= 0 && X+i < 20 && Y+j >= 0 && Y+j < 20 && (i!=0 || j!=0))
                     {
                         if (board.Fields[X+i,Y+j].Terrain !=-1 && board.Fields[X+i,Y+j].Piece == null || (target.X == X+i && target.Y == Y+j))
                         {

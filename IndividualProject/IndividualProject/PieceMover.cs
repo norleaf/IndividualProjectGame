@@ -31,9 +31,9 @@ namespace IndividualProject
             }
             else
             {
-                piece.RemoveFromBoard(battleBoard);
+                piece.RemoveFromBoard();
                 piece.Field = Destination;
-                piece.InsertOnBoard(battleBoard);
+                piece.InsertOnBoard();
                 piece.MoveVector = Vector2.Zero;
                 piece.ActionPoints--;
                 //call piece finished moving

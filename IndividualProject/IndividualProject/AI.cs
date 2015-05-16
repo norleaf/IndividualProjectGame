@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 
 namespace IndividualProject
@@ -10,15 +11,16 @@ namespace IndividualProject
     {
         public List<Field> openNodes { get; private set; }
         public List<Field> closedNodes { get; private set; }
-        public List<Field> path { get; private set; }
+       // public List<Field> path { get; private set; }
         private Piece owner;
+        public Path Path;
 
         public AI(Piece owner)
         {
             this.owner = owner;
             openNodes = new List<Field>();
             closedNodes = new List<Field>();
-            path = new List<Field>();
+            Path = new Path(owner.Target);
         }
 
         public virtual Piece ChooseTarget(BattleBoard battleBoard)
@@ -31,22 +33,34 @@ namespace IndividualProject
                     if (bestTarget == null)
                     {
                         bestTarget = piece;
-                        path = FindPathToTarget(owner.Field, piece.Field, battleBoard);
+                        Path = FindPathToTarget(piece, battleBoard);
+                    }
+                    else
+                    {
+                        Path comparePath = FindPathToTarget(piece, battleBoard);
+                        if (comparePath.Value > Path.Value)
+                        {
+                            Path = comparePath;
+                        }
                     }
                 }
             }
             return bestTarget;
         }
 
-        public virtual List<Field> FindPathToTarget(Field origin, Field target, BattleBoard board)
+        public virtual Path FindPathToTarget(Piece targetPiece, BattleBoard board)
         {
+            Field origin = owner.Field;
+            Field target = targetPiece.Field;
             Field currentNode;
+            //create the open list of nodes, initially containing only our starting node
+            //create the closed list of nodes, initially empty
             openNodes.Clear();
             closedNodes.Clear();
-            path.Clear();
+            openNodes.Add(origin);
+            Path.Fields.Clear();
             board.ClearParents();
             bool done = false;
-            openNodes.Add(origin);
             while (!done)
             {
                 //consider the best node in the open list (the node with the lowest f value)
@@ -60,27 +74,23 @@ namespace IndividualProject
                         lowestF = node.F(target);
                     }
                 }
-             //   Console.WriteLine(currentNode.X+","+currentNode.Y+" cost: "+currentNode.PathCost);
                 if (currentNode.Equals(target))
                 {
                     done = true;
                     Console.WriteLine("Success");
                     while (currentNode.PathParent != null)
                     {
-                   //     Console.WriteLine("adding node: " + currentNode.X + "," + currentNode.Y);
-                   //     Console.WriteLine("node parent: " + currentNode.PathParent.X + "," + currentNode.PathParent.Y);
-                        path.Add(currentNode);
+                        Path.Fields.Add(currentNode);
                         currentNode = currentNode.PathParent;
                     } 
-                  //  Console.WriteLine("path: "+path);
-                    return path;
+                    return Path;
                 }
                 else
                 {
+                    //move the current node to the closed list and consider all of its neighbors
                     openNodes.Remove(currentNode);
                     closedNodes.Add(currentNode);
                     List<Field> neighbors = currentNode.Neighbors(board, target);
-                    
                     foreach (var node in neighbors)
                     {
                         if (closedNodes.Contains(node) || openNodes.Contains(node))

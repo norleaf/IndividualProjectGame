@@ -36,24 +36,31 @@ namespace IndividualProject
             Piece testPiece = new Piece(board.fighter, board.Fields[2, 1], board.cellSize, 3, board);
             testPiece.teamColor = Color.Red;
             //testPiece.ActionPoints = 3;
-            testPiece.InsertOnBoard(board);
+            testPiece.InsertOnBoard();
 
-            Piece bluePiece = new Piece(board.fighter, board.Fields[1, 16], board.cellSize, 3, board);
+            Piece red1Piece = new Piece(board.fighter, board.Fields[1, 1], board.cellSize, 4, board);
+            red1Piece.teamColor = Color.Red;
+            //testPiece.ActionPoints = 3;
+            red1Piece.InsertOnBoard();
+
+            Piece bluePiece = new Piece(board.fighter, board.Fields[1, 7], board.cellSize, 3, board);
             bluePiece.teamColor = Color.DarkBlue;
-            bluePiece.InsertOnBoard(board);
+            bluePiece.InsertOnBoard();
 
-            Piece targetPiece = new Piece(board.fighter, board.Fields[17, 16], board.cellSize, 3, board);
-            targetPiece.teamColor = Color.Yellow;
-            targetPiece.InsertOnBoard(board);
+            Piece targetPiece = new Piece(board.fighter, board.Fields[4, 3], board.cellSize, 3, board);
+            targetPiece.teamColor = Color.DarkBlue;
+            targetPiece.InsertOnBoard();
 
             board.Pieces.Enqueue(testPiece);
+            board.Pieces.Enqueue(red1Piece);
             board.Pieces.Enqueue(bluePiece);
             board.Pieces.Enqueue(targetPiece);
-            
+
 
             testPiece.Target = targetPiece;
-            targetPiece.Target = bluePiece;
-            bluePiece.Target = bluePiece;
+            targetPiece.Target = testPiece;
+            bluePiece.Target = red1Piece;
+            red1Piece.Target = bluePiece;
         }
     }
 }
