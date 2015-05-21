@@ -17,8 +17,10 @@ namespace IndividualProject
         private Texture2D square;
         public Texture2D fighter;
         private Texture2D mud;
+        private Texture2D stone;
         private Texture2D bloodsplat;
         private Texture2D fire;
+        private Texture2D bg;
         public Field[,] Fields { get; private set; }
         private int boardSize = 20;
         public readonly int cellSize = 32;
@@ -36,11 +38,13 @@ namespace IndividualProject
             Pieces = new Queue<Piece>();
           //  ai = new AI();
             this.content = content;
+            bg = content.Load<Texture2D>("bg");
             pixel = content.Load<Texture2D>("pixel");
             square = content.Load<Texture2D>("Square");
-            fighter = content.Load<Texture2D>("fighter");
+            fighter = content.Load<Texture2D>("fighter2");
             fire = content.Load<Texture2D>("fire");
             mud = content.Load<Texture2D>("mud");
+            stone = content.Load<Texture2D>("stone");
             bloodsplat = content.Load<Texture2D>("bloodsplat");
             sprites = new List<Sprite>();
             Fields = new Field[boardSize, boardSize];
@@ -58,8 +62,8 @@ namespace IndividualProject
 
         private void GenerateTerrain()
         {
-            MapFactory mf = new MapFactory();
-            mf.Map1(this);
+            MapFactory mf = new MapFactory(this);
+            mf.Map1();
         }
 
         public void Update(GameTime gameTime)
@@ -85,6 +89,7 @@ namespace IndividualProject
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
+            spriteBatch.Draw(bg,new Vector2(0,0));
             foreach (var openNode in activePiece.AI.openNodes)
             {
                 spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.Green);
@@ -106,7 +111,7 @@ namespace IndividualProject
                     switch (Fields[i,j].Terrain)
                     {
                         case -1:
-                            spriteBatch.Draw(square,new Vector2(i*cellSize,j*cellSize),Color.Black);
+                            spriteBatch.Draw(stone,new Vector2(i*cellSize,j*cellSize));
                             break;
                         case 1:
                             spriteBatch.Draw(mud,new Vector2(i*cellSize,j*cellSize));

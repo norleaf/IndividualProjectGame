@@ -6,10 +6,17 @@ using Microsoft.Xna.Framework;
 
 namespace IndividualProject
 {
+    
     public class MapFactory
     {
+        private BattleBoard board;
 
-        public void Map1(BattleBoard board)
+        public MapFactory(BattleBoard board)
+        {
+            this.board = board;
+        }
+
+        public void Map1()
         {
             board.Fields[4, 3].Terrain = 1;
             board.Fields[2, 5].Terrain = 2;
@@ -32,35 +39,49 @@ namespace IndividualProject
             board.Fields[10, 12].Terrain = -1;
             board.Fields[11, 12].Terrain = -1;
             board.Fields[12, 12].Terrain = -1;
+            board.Fields[12, 5].Terrain = -1;
+            board.Fields[13, 4].Terrain = -1;
+            board.Fields[13, 5].Terrain = -1;
+            board.Fields[13, 6].Terrain = -1;
+            board.Fields[13, 7].Terrain = -1;
 
-            Piece testPiece = new Piece(board.fighter, board.Fields[2, 1], board.cellSize, 3, board);
-            testPiece.teamColor = Color.Red;
-            //testPiece.ActionPoints = 3;
-            testPiece.InsertOnBoard();
+            Piece redKnight = NewKnight(3, 1, Color.Red);
+            Piece redFighter = NewFighter(1, 4, Color.Red);
+            //Piece redFighter2 = NewFighter(2, 2, Color.Red);
 
-            Piece red1Piece = new Piece(board.fighter, board.Fields[1, 1], board.cellSize, 4, board);
-            red1Piece.teamColor = Color.Red;
-            //testPiece.ActionPoints = 3;
-            red1Piece.InsertOnBoard();
+            Piece blueKnight = NewKnight(13, 11, Color.Blue);
+            Piece blueFighter = NewFighter(18, 14, Color.Blue);
 
-            Piece bluePiece = new Piece(board.fighter, board.Fields[1, 7], board.cellSize, 3, board);
-            bluePiece.teamColor = Color.DarkBlue;
-            bluePiece.InsertOnBoard();
+            redKnight.Target = blueFighter;
+            redFighter.Target = blueFighter;
 
-            Piece targetPiece = new Piece(board.fighter, board.Fields[4, 3], board.cellSize, 3, board);
-            targetPiece.teamColor = Color.DarkBlue;
-            targetPiece.InsertOnBoard();
+            blueFighter.Target = redKnight;
+            blueKnight.Target = redKnight;
 
-            board.Pieces.Enqueue(testPiece);
-            board.Pieces.Enqueue(red1Piece);
-            board.Pieces.Enqueue(bluePiece);
-            board.Pieces.Enqueue(targetPiece);
+        }
 
+        private Piece NewKnight(int x, int y, Color teamColor)
+        {
+            Piece knight = new Piece(board.fighter, board.Fields[x,y], board.cellSize, 3, board );
+            knight.Armor = 3;
+            knight.AttackDamage = 4;
+            knight.Health = 9;
+            knight.teamColor = teamColor;
+            board.Pieces.Enqueue(knight);
+            knight.InsertOnBoard();
+            return knight;
+        }
 
-            testPiece.Target = targetPiece;
-            targetPiece.Target = testPiece;
-            bluePiece.Target = red1Piece;
-            red1Piece.Target = bluePiece;
+        private Piece NewFighter(int x, int y, Color teamColor)
+        {
+            Piece fighter = new Piece(board.fighter, board.Fields[x, y], board.cellSize, 4, board);
+            fighter.Armor = 2;
+            fighter.AttackDamage = 5;
+            fighter.Health = 7;
+            fighter.teamColor = teamColor;
+            board.Pieces.Enqueue(fighter);
+            fighter.InsertOnBoard();
+            return fighter;
         }
     }
 }
