@@ -91,7 +91,21 @@ namespace IndividualProject
         private void Attack(Piece Target)
         {
             battleBoard.SpawnBlood(Target.Field);
+            Target.TakeDamage(AttackDamage);
             ActionPoints = 0;
+        }
+
+        private void TakeDamage(int attackDamage)
+        {
+            if (attackDamage > Armor)
+            {
+                Health = Health - (attackDamage - Armor);
+            }
+            if (Health <=0)
+            {
+                RemoveFromBoard();
+                battleBoard.Pieces.Remove(this);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)

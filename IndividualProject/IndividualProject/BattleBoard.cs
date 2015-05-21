@@ -31,11 +31,11 @@ namespace IndividualProject
         private bool _paused;
         private bool _justPressed;
         //private Piece targetPiece;
-        public Queue<Piece> Pieces { get; private set; } 
+        public List<Piece> Pieces { get; private set; } 
 
         public BattleBoard(ContentManager content)
         {
-            Pieces = new Queue<Piece>();
+            Pieces = new List<Piece>();
           //  ai = new AI();
             this.content = content;
             bg = content.Load<Texture2D>("bg");
@@ -55,7 +55,7 @@ namespace IndividualProject
                 }
             GenerateTerrain();
 
-            activePiece = Pieces.Peek();
+            activePiece = Pieces[0];
 
             ActionComplete();
         }
@@ -148,8 +148,9 @@ namespace IndividualProject
         {
             if (activePiece.ActionPoints < 1)
             {
-                activePiece = Pieces.Dequeue();
-                Pieces.Enqueue(activePiece);
+                activePiece = Pieces[0];
+                Pieces.Remove(activePiece);
+                Pieces.Add(activePiece);
                 activePiece.ActionPoints = activePiece.MaxActionPoints;
                 
             }
