@@ -20,7 +20,7 @@ namespace IndividualProject
             this.owner = owner;
             openNodes = new List<Field>();
             closedNodes = new List<Field>();
-            Path = new Path(owner.Target);
+            Path = new Path(owner, owner.Target);
         }
 
         public virtual Piece ChooseTarget(BattleBoard battleBoard)
@@ -41,6 +41,7 @@ namespace IndividualProject
                         if (comparePath.Value > Path.Value)
                         {
                             Path = comparePath;
+                            bestTarget = piece;
                         }
                     }
                 }

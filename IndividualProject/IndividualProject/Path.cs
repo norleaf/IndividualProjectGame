@@ -10,11 +10,13 @@ namespace IndividualProject
         public List<Field> Fields { get; set; }
         public int Cost;
         public int Damage;
-        
-        private Piece TargetPiece;
 
-        public Path(Piece targetPiece)
+        private Piece TargetPiece;
+        private Piece Owner;
+
+        public Path(Piece owner, Piece targetPiece)
         {
+            Owner = owner;
             TargetPiece = targetPiece;
             Fields = new List<Field>();
         }
