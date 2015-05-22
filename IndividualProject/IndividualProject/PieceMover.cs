@@ -37,7 +37,7 @@ namespace IndividualProject
                 piece.MoveVector = Vector2.Zero;
                 piece.ActionPoints--;
                 //call piece finished moving
-                battleBoard.ActionComplete();
+             //   battleBoard.ActionComplete();
             }
         }
 

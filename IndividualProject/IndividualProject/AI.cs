@@ -59,7 +59,7 @@ namespace IndividualProject
             openNodes.Clear();
             closedNodes.Clear();
             openNodes.Add(origin);
-            Path.Fields.Clear();
+            Path path = new Path(owner,targetPiece);
             board.ClearParents();
             bool done = false;
             while (!done)
@@ -81,10 +81,10 @@ namespace IndividualProject
                     Console.WriteLine("Success");
                     while (currentNode.PathParent != null)
                     {
-                        Path.Fields.Add(currentNode);
+                        path.Fields.Add(currentNode);
                         currentNode = currentNode.PathParent;
                     } 
-                    return Path;
+                    return path;
                 }
                 else
                 {

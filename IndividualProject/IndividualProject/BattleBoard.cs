@@ -13,6 +13,8 @@ namespace IndividualProject
     public class BattleBoard
     {
         private ContentManager content;
+        private SpriteFont Font;
+        public String message = "";
         private Texture2D pixel;
         private Texture2D square;
         public Texture2D fighter;
@@ -38,6 +40,7 @@ namespace IndividualProject
             Pieces = new List<Piece>();
           //  ai = new AI();
             this.content = content;
+            Font = content.Load<SpriteFont>("superfont");
             bg = content.Load<Texture2D>("bg");
             pixel = content.Load<Texture2D>("pixel");
             square = content.Load<Texture2D>("Square");
@@ -55,9 +58,9 @@ namespace IndividualProject
                 }
             GenerateTerrain();
 
-            activePiece = Pieces[0];
+         //   activePiece = Pieces[0];
 
-            ActionComplete();
+            TurnComplete();
         }
 
         private void GenerateTerrain()
@@ -130,6 +133,7 @@ namespace IndividualProject
             {
                 piece.Draw(spriteBatch,camera);
             }
+            spriteBatch.DrawString(Font, message, Vector2.Zero, Color.Black);
             
             
         }
@@ -144,18 +148,27 @@ namespace IndividualProject
         }
 
 
-        public void ActionComplete()
+        public void TurnComplete()
         {
-            if (activePiece.ActionPoints < 1)
-            {
-                activePiece = Pieces[0];
-                Pieces.Remove(activePiece);
-                Pieces.Add(activePiece);
-                activePiece.ActionPoints = activePiece.MaxActionPoints;
+            activePiece = Pieces[0];
+            Pieces.Remove(activePiece);
+            Pieces.Add(activePiece);
+            activePiece.ActionPoints = activePiece.MaxActionPoints;
+            activePiece.StartTurn();
+        }
+
+       // public void ActionComplete()
+       // {
+       //     if (activePiece.ActionPoints < 1)
+       //     {
+       //         activePiece = Pieces[0];
+       //         Pieces.Remove(activePiece);
+       //         Pieces.Add(activePiece);
+       //         activePiece.ActionPoints = activePiece.MaxActionPoints;
                 
-            }
-            activePiece.StartMove();
-       }
+       //     }
+       //     activePiece.StartMove();
+       //}
 
         public void SpawnBlood(Field field)
         {

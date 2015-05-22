@@ -45,12 +45,12 @@ namespace IndividualProject
             _board.Fields[13, 6].Terrain = -1;
             _board.Fields[13, 7].Terrain = -1;
 
-            Piece redKnight = NewKnight(3, 1, Color.Red);
-            Piece redFighter = NewFighter(1, 4, Color.Red);
+            Piece redKnight = NewKnight(1, 4, Color.Red);
+            Piece redFighter = NewFighter(1, 14, Color.Red);
             //Piece redFighter2 = NewFighter(2, 2, Color.Red);
 
-            Piece blueKnight = NewKnight(13, 11, Color.Blue);
-            Piece blueFighter = NewFighter(18, 14, Color.Blue);
+            Piece blueKnight = NewKnight(12, 4, Color.Blue);
+            Piece blueFighter = NewFighter(12, 14, Color.Blue);
 
             redKnight.Target = blueFighter;
             redFighter.Target = blueFighter;

@@ -32,3 +32,4 @@ C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\Indivi
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\bg.png
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\fighter2.png
 C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\stone.png
+C:\Users\Hans\Documents\Visual Studio 2013\Projects\IndividualProjectGame\IndividualProject\IndividualProject\bin\Windows\Debug\Content\superfont.xnb

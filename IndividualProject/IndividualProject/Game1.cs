@@ -26,6 +26,7 @@ namespace IndividualProject
         BattleBoard battleBoard;
         Camera camera;
         
+        
         public Game1()
             : base()
         {
@@ -64,8 +65,9 @@ namespace IndividualProject
             Screen screen = Screen.AllScreens.First(e => e.Primary);
             camera = new Camera(new Vector2(0,0),new Vector2(screen.Bounds.Width,screen.Bounds.Height) );
             battleBoard = new BattleBoard(Content);
-
             
+
+
         }
 
         /// <summary>
