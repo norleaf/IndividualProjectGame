@@ -93,13 +93,13 @@ namespace IndividualProject
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
             spriteBatch.Draw(bg,new Vector2(0,0));
-            foreach (var openNode in activePiece.AI.openNodes)
+            foreach (var openNode in activePiece.AI.OpenNodes)
             {
                 spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.Green);
             }
-            foreach (var openNode in activePiece.AI.closedNodes)
+            foreach (var closedNode in activePiece.AI.ClosedNodes)
             {
-                spriteBatch.Draw(square, new Vector2(openNode.X * cellSize, openNode.Y * cellSize), Color.LightGreen);
+                spriteBatch.Draw(square, new Vector2(closedNode.X * cellSize, closedNode.Y * cellSize), Color.LightGreen);
             }
             for (int i = 0; i < boardSize; i++)
             {

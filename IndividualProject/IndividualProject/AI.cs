@@ -9,8 +9,11 @@ namespace IndividualProject
 {
     public class AI
     {
-        public List<Field> openNodes { get; private set; }
-        public List<Field> closedNodes { get; private set; }
+        private List<Field> openNodes;
+        private List<Field> closedNodes;
+        public List<Field> OpenNodes { get; private set; }
+        public List<Field> ClosedNodes { get; private set; }
+
        // public List<Field> path { get; private set; }
         private Piece owner;
         public Path Path;
@@ -20,6 +23,8 @@ namespace IndividualProject
             this.owner = owner;
             openNodes = new List<Field>();
             closedNodes = new List<Field>();
+            OpenNodes = new List<Field>();
+            ClosedNodes = new List<Field>();
             Path = new Path(owner, owner.Target);
         }
 
@@ -34,6 +39,8 @@ namespace IndividualProject
                     {
                         bestTarget = piece;
                         Path = FindPathToTarget(piece, battleBoard);
+                        OpenNodes = CopyList(openNodes);
+                        ClosedNodes = CopyList(closedNodes);
                     }
                     else
                     {
@@ -42,6 +49,8 @@ namespace IndividualProject
                         {
                             Path = comparePath;
                             bestTarget = piece;
+                            OpenNodes = CopyList(openNodes);
+                            ClosedNodes = CopyList(closedNodes);
                         }
                     }
                 }
@@ -49,11 +58,22 @@ namespace IndividualProject
             return bestTarget;
         }
 
+        private List<Field> CopyList(List<Field> nodes)
+        {
+            List<Field> list = new List<Field>();
+            foreach (var node in nodes)
+            {
+                list.Add(node);
+            }
+            return list;
+        }
+
         public virtual Path FindPathToTarget(Piece targetPiece, BattleBoard board)
         {
             Field origin = owner.Field;
             Field target = targetPiece.Field;
             Field currentNode;
+            
             //create the open list of nodes, initially containing only our starting node
             //create the closed list of nodes, initially empty
             openNodes.Clear();
@@ -79,10 +99,12 @@ namespace IndividualProject
                 {
                     done = true;
                     Console.WriteLine("Success");
+                    path.Cost = (int)currentNode.PathCost;
                     while (currentNode.PathParent != null)
                     {
                         path.Fields.Add(currentNode);
                         currentNode = currentNode.PathParent;
+                        
                     } 
                     return path;
                 }
@@ -112,6 +134,7 @@ namespace IndividualProject
                 }
                 if (openNodes.Count == 0)
                 {
+                    Console.WriteLine("No path found");
                     return null;
                 }
             }
