@@ -18,6 +18,12 @@ namespace IndividualProject
         private Piece owner;
         public Path Path;
 
+        public float F1 = 1;
+        public float F2 = 1;
+        public float F3 = 1;
+        public float F4 = 1;
+
+
         public AI(Piece owner)
         {
             this.owner = owner;

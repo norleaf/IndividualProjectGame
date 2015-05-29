@@ -18,6 +18,8 @@ namespace IndividualProject
         private Texture2D pixel;
         private Texture2D square;
         public Texture2D fighter;
+        public Texture2D axeman;
+        public Texture2D spearman;
         private Texture2D mud;
         private Texture2D stone;
         private Texture2D bloodsplat;
@@ -45,6 +47,8 @@ namespace IndividualProject
             pixel = content.Load<Texture2D>("pixel");
             square = content.Load<Texture2D>("Square");
             fighter = content.Load<Texture2D>("fighter2");
+            axeman = content.Load<Texture2D>("axeman");
+            spearman = content.Load<Texture2D>("spearman");
             fire = content.Load<Texture2D>("fire");
             mud = content.Load<Texture2D>("mud");
             stone = content.Load<Texture2D>("stone");

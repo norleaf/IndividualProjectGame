@@ -23,12 +23,12 @@ namespace IndividualProject
 
         public int PieceValue
         {
-            get { return TargetPiece.AttackDamage - TargetPiece.Health - TargetPiece.Armor; }
+            get { return (int)(TargetPiece.AttackDamage * Owner.AI.F1 - TargetPiece.Health * Owner.AI.F2 - TargetPiece.Armor * Owner.AI.F3); }
         }
 
         public int Value
         {
-            get { return PieceValue - Cost - Damage; }
+            get { return (int)(PieceValue - Cost * Owner.AI.F4 - Damage); }
         }
     }
 }

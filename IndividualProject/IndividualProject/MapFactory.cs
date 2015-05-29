@@ -18,8 +18,30 @@ namespace IndividualProject
 
         public void Map1()
         {
+            //mud
             _board.Fields[4, 3].Terrain = 1;
+            _board.Fields[9, 9].Terrain = 1;
+            _board.Fields[9, 7].Terrain = 1;
+            _board.Fields[8, 7].Terrain = 1;
+            _board.Fields[8, 8].Terrain = 1;
+            _board.Fields[8, 9].Terrain = 1;
+          //  _board.Fields[8, 10].Terrain = 1;
+            _board.Fields[8, 11].Terrain = 1;
+            _board.Fields[9, 11].Terrain = 1;
+
+            _board.Fields[10, 13].Terrain = 1;
+            _board.Fields[10, 14].Terrain = 1;
+            _board.Fields[10, 15].Terrain = 1;
+            _board.Fields[9, 13].Terrain = 1;
+            _board.Fields[9, 14].Terrain = 1;
+            _board.Fields[9, 15].Terrain = 1;
+            _board.Fields[9, 16].Terrain = 1;
+            _board.Fields[9, 17].Terrain = 1;
+            _board.Fields[9, 18].Terrain = 1;
+
+            //Fire
             _board.Fields[2, 5].Terrain = 2;
+
             //Walls         
             _board.Fields[3, 1].Terrain = -1;
             
@@ -46,18 +68,34 @@ namespace IndividualProject
             _board.Fields[13, 7].Terrain = -1;
 
             Piece redKnight = NewKnight(1, 4, Color.Red);
-            Piece redFighter = NewFighter(1, 14, Color.Red);
-            //Piece redFighter2 = NewFighter(2, 2, Color.Red);
+            Piece redFighter = NewSpearman(1, 14, Color.Red);
+            Piece redAxeman = NewAxeman(2,7,Color.Red);
+            NewSpearman(1, 1, Color.Red);
+
 
             Piece blueKnight = NewKnight(12, 4, Color.Blue);
-            Piece blueFighter = NewFighter(12, 14, Color.Blue);
+            Piece blueFighter = NewSpearman(12, 14, Color.Blue);
+            Piece blueAxeman = NewAxeman(12, 11, Color.Blue);
+            NewSpearman(12, 7, Color.Blue);
 
-            redKnight.Target = blueFighter;
-            redFighter.Target = blueFighter;
+            //redKnight.Target = blueFighter;
+            //redFighter.Target = blueFighter;
 
-            blueFighter.Target = redKnight;
-            blueKnight.Target = redKnight;
+            //blueFighter.Target = redKnight;
+            //blueKnight.Target = redKnight;
 
+        }
+
+        private Piece NewAxeman(int x, int y, Color teamColor)
+        {
+            Piece axeman = new Piece(_board.axeman, _board.Fields[x, y], _board.cellSize, 3, _board);
+            axeman.Armor = 0;
+            axeman.AttackDamage = 7;
+            axeman.Health = 9;
+            axeman.teamColor = teamColor;
+            _board.Pieces.Add(axeman);
+            axeman.InsertOnBoard();
+            return axeman;
         }
 
         private Piece NewKnight(int x, int y, Color teamColor)
@@ -72,9 +110,9 @@ namespace IndividualProject
             return knight;
         }
 
-        private Piece NewFighter(int x, int y, Color teamColor)
+        private Piece NewSpearman(int x, int y, Color teamColor)
         {
-            Piece fighter = new Piece(_board.fighter, _board.Fields[x, y], _board.cellSize, 4, _board);
+            Piece fighter = new Piece(_board.spearman, _board.Fields[x, y], _board.cellSize, 4, _board);
             fighter.Armor = 2;
             fighter.AttackDamage = 5;
             fighter.Health = 7;

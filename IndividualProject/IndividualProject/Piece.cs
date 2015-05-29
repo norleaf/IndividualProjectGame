@@ -23,7 +23,7 @@ namespace IndividualProject
         public Piece Target { get; set; }
         private BattleBoard battleBoard;
         private int steps;
-        private const int STEPS = 20;
+        private const int STEPS = 45;
         public AI AI { get; set; }
         Vector2 dVector2;
 
