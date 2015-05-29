@@ -10,10 +10,11 @@ namespace IndividualProject
     public class MapFactory
     {
         private BattleBoard _board;
-
+        private bool cleverAI;
         public MapFactory(BattleBoard board)
         {
             _board = board;
+            cleverAI = false;
         }
 
         public void Map1()
@@ -67,16 +68,8 @@ namespace IndividualProject
             _board.Fields[13, 6].Terrain = -1;
             _board.Fields[13, 7].Terrain = -1;
 
-            Piece redKnight = NewKnight(1, 4, Color.Red);
-            Piece redFighter = NewSpearman(1, 14, Color.Red);
-            Piece redAxeman = NewAxeman(2,7,Color.Red);
-            NewSpearman(1, 1, Color.Red);
-
-
-            Piece blueKnight = NewKnight(12, 4, Color.Blue);
-            Piece blueFighter = NewSpearman(12, 14, Color.Blue);
-            Piece blueAxeman = NewAxeman(12, 11, Color.Blue);
-            NewSpearman(12, 7, Color.Blue);
+            SetupPiecesPositions1();
+           
 
             //redKnight.Target = blueFighter;
             //redFighter.Target = blueFighter;
@@ -86,9 +79,39 @@ namespace IndividualProject
 
         }
 
+        private void SetupPiecesPositions1()
+        {
+            cleverAI = false;
+            NewKnight(1, 4, Color.Red);
+            NewSpearman(1, 14, Color.Red);
+            NewAxeman(2, 7, Color.Red);
+            NewSpearman(1, 1, Color.Red);
+
+            cleverAI = true;
+            NewKnight(12, 4, Color.Blue);
+            NewSpearman(12, 14, Color.Blue);
+            NewAxeman(12, 11, Color.Blue);
+            NewSpearman(12, 7, Color.Blue);
+        }
+
+        private void SetupPiecesPositions2()
+        {
+            cleverAI = false;
+            NewKnight(1, 3, Color.Red);
+            NewSpearman(1,2, Color.Red);
+            NewAxeman(2, 3, Color.Red);
+            NewSpearman(2, 2, Color.Red);
+
+            cleverAI = true;
+            NewKnight(14, 15, Color.Blue);
+            NewSpearman(14, 14, Color.Blue);
+            NewAxeman(15, 15, Color.Blue);
+            NewSpearman(15, 14, Color.Blue);
+        }
+
         private Piece NewAxeman(int x, int y, Color teamColor)
         {
-            Piece axeman = new Piece(_board.axeman, _board.Fields[x, y], _board.cellSize, 3, _board);
+            Piece axeman = new Piece(_board.axeman, _board.Fields[x, y], _board.cellSize, 3, cleverAI, _board);
             axeman.Armor = 0;
             axeman.AttackDamage = 7;
             axeman.Health = 9;
@@ -100,7 +123,7 @@ namespace IndividualProject
 
         private Piece NewKnight(int x, int y, Color teamColor)
         {
-            Piece knight = new Piece(_board.fighter, _board.Fields[x,y], _board.cellSize, 3, _board );
+            Piece knight = new Piece(_board.fighter, _board.Fields[x,y], _board.cellSize, 3, cleverAI, _board );
             knight.Armor = 3;
             knight.AttackDamage = 4;
             knight.Health = 9;
@@ -112,7 +135,7 @@ namespace IndividualProject
 
         private Piece NewSpearman(int x, int y, Color teamColor)
         {
-            Piece fighter = new Piece(_board.spearman, _board.Fields[x, y], _board.cellSize, 4, _board);
+            Piece fighter = new Piece(_board.spearman, _board.Fields[x, y], _board.cellSize, 4, cleverAI, _board);
             fighter.Armor = 2;
             fighter.AttackDamage = 5;
             fighter.Health = 7;

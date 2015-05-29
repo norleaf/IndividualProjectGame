@@ -23,18 +23,19 @@ namespace IndividualProject
         public Piece Target { get; set; }
         private BattleBoard battleBoard;
         private int steps;
-        private const int STEPS = 45;
+        private const int STEPS = 25;
         public AI AI { get; set; }
         Vector2 dVector2;
 
-        public Piece(Texture2D spriteTexture, Field field, int cellSize, int maxAP, BattleBoard board) : base(spriteTexture, new Vector2(0,0))
+        public Piece(Texture2D spriteTexture, Field field, int cellSize, int maxAP, bool clever, BattleBoard board) : base(spriteTexture, new Vector2(0,0))
         {
             this.battleBoard = board;
             this.Field = field;
             this.cellSize = cellSize;
             MaxActionPoints = maxAP;
             MoveVector = Vector2.Zero;
-            AI = new AI(this);
+            if(clever) AI = new CleverAI(this);
+            else AI = new AI(this);
         }
 
         public override void Update(GameTime gameTime)
